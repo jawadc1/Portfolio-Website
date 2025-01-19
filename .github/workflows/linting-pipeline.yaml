@@ -1,34 +1,21 @@
-name: Linting Workflow
-
-on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
-
 jobs:
   lint:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Use Node.js 16 or later
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: |
-        npm install --save-dev htmlhint stylelint
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Run HTMLHint
-      run: |
-        npx htmlhint '**/*.html'
+      - name: Run HTMLHint
+        run: npx htmlhint '**/*.html'
 
-    - name: Run Stylelint
-      run: |
-        npx stylelint '**/*.css'
+      - name: Run Stylelint
+        run: npx stylelint '**/*.css'
